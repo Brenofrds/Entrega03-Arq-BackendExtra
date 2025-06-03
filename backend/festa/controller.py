@@ -1,5 +1,5 @@
 from .builder import FestaPersonalizadaBuilder, Organizador
-from .festa_utils import FestaUtils
+from .bridge import TipoConviteFesta, TipoListaPreferencias, ConviteFesta, ListaPreferencias
 
 # Armazenamento em memória
 festas_organizadas = {}
@@ -69,8 +69,12 @@ def organizar_festa_via_terminal(usuario):
     festas_organizadas[usuario["id"]] = festa
 
     print("\n✅ Festa criada com sucesso!\n")
-    print(FestaUtils.gerarConvite(festa))
-    print(FestaUtils.gerarPreferencias(festa))
+
+    convite = ConviteFesta(festa, TipoConviteFesta())
+    preferencias = ListaPreferencias(festa, TipoListaPreferencias())
+    print(convite.gerarConvite())
+    print(preferencias.gerarConvite())
+    
 
 def mostrar_festa(usuario):
     festa = festas_organizadas.get(usuario["id"])
@@ -78,5 +82,7 @@ def mostrar_festa(usuario):
         print("⚠️ Nenhuma festa organizada ainda para este usuário.")
         return
 
-    print(FestaUtils.gerarConvite(festa))
-    print(FestaUtils.gerarPreferencias(festa))
+    convite = ConviteFesta(festa, TipoConviteFesta())
+    preferencias = ListaPreferencias(festa, TipoListaPreferencias())
+    print(convite.gerarConvite())
+    print(preferencias.gerarConvite())
